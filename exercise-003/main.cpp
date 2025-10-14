@@ -1,3 +1,5 @@
+#include <vector>
+#include <random>
 #include <fmt/chrono.h>
 #include <fmt/format.h>
 
@@ -11,13 +13,13 @@ auto main(int argc, char **argv) -> int
      * More info at https://github.com/CLIUtils/CLI11#usage
      */
     CLI::App app{PROJECT_NAME};
-    try
-    {
+
+    int count = 20;
+    app.add_option("-c,--count", count, "Number of random values")->default_val("20");
+    try {
         app.set_version_flag("-V,--version", fmt::format("{} {}", PROJECT_VER, PROJECT_BUILD_DATE));
         app.parse(argc, argv);
-    }
-    catch (const CLI::ParseError &e)
-    {
+    } catch (const CLI::ParseError &e) {
         return app.exit(e);
     }
 
@@ -28,7 +30,16 @@ auto main(int argc, char **argv) -> int
      */
     fmt::print("Hello, {}!\n", app.get_name());
 
-    /* INSERT YOUR CODE HERE */
+
+    // Vector with random values 1-100 of size count
+    std::vector<int> values;
+    values.reserve(count);
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(1, 100);
+    for (int i = 0; i < count; ++i) {
+        values.push_back(dis(gen));
+    }
 
     return 0; /* exit gracefully*/
 }
