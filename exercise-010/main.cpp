@@ -30,12 +30,26 @@ auto main(int argc, char **argv) -> int
     fmt::print("Hello, {}!\n", app.get_name());
 
     
+    // demo for mystd::myvector
     {
-        MyVector vec;
+        mystd::myvector<int> v;
+        v.push_back(1);
+        v.push_back(2);
+        v.push_back(3);
+        fmt::print("v.size() = {}, v.capacity() = {}\n", v.size(), v.capacity());
+        fmt::print("v[1] = {}\n", v[1]);
+        v.resize(6);
+        fmt::print("after resize: size = {}, capacity = {}\n", v.size(), v.capacity());
+        try {
+            v.at(10); // should throw
+        } catch (const std::out_of_range &e) {
+            fmt::print("caught expected exception: {}\n", e.what());
+        }
+        v.clear();
+        fmt::print("after clear: size = {}\n", v.size());
     }
 
-    MyVector vec2(27);
-    fmt::println("Hello exercise number 3 after Vector");
+    fmt::println("Hello exercise number 10 after myvector demo");
 
     return 0; /* exit gracefully*/
 }
