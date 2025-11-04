@@ -21,7 +21,13 @@ include_directories("${CMAKE_CURRENT_BINARY_DIR}/include") # add the output path
 # add the executable
 add_executable(${PROJECT_NAME} main.cpp myvector.cpp)
 
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
 # Add libraries
 target_link_libraries(${PROJECT_NAME} PRIVATE
                                         fmt::fmt
                                         CLI11::CLI11)
+
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()

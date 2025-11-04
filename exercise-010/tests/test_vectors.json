@@ -1,0 +1,53 @@
+{
+  "cases": [
+    {
+      "name": "push and resize",
+      "initial_values": [1,2,3],
+      "operations": [
+        { "op": "push_back", "value": 4 },
+        { "op": "push_back", "value": 5 },
+        { "op": "resize", "new_size": 4 },
+        { "op": "at", "index": 2 }
+      ],
+      "expect": {
+        "final_size": 4,
+        "final_values": [1,2,3,4],
+        "reads": [ { "index": 2, "value": 3 } ]
+      }
+    },
+    {
+      "name": "reserve then push",
+      "initial_size": 0,
+      "initial_capacity": 10,
+      "operations": [
+        { "op": "push_back", "value": 7 },
+        { "op": "push_back", "value": 8 }
+      ],
+      "expect": {
+        "final_size": 2,
+        "min_capacity": 10,
+        "final_values": [7,8]
+      }
+    },
+    {
+      "name": "out of range read",
+      "initial_values": [1,2],
+      "operations": [
+        { "op": "at", "index": 5 }
+      ],
+      "expect": {
+        "final_size": 2,
+        "errors": [ { "op": "at", "index": 5, "error": "out_of_range" } ]
+      }
+    },
+    {
+      "name": "clear after push",
+      "operations": [
+        { "op": "push_back", "value": 9 },
+        { "op": "push_back", "value": 10 },
+        { "op": "clear" }
+      ],
+      "expect": { "final_size": 0 }
+    }
+  ]
+}
